@@ -11,6 +11,7 @@ public class Program {
 		
 		SellerDao sellerDao = DaoFactory.createSellerDao(); //Dessa forma eu crio um seller sem colocar o construtor
 		
+		System.out.println("***TEST 1: seller findById***");
 		Seller seller = sellerDao.findById(3);
 		
 		System.out.println(seller);

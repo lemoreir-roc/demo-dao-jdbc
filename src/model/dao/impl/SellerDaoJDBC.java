@@ -58,18 +58,10 @@ public class SellerDaoJDBC implements SellerDao {
 			
 			if(rs.next()) {
 				//Instanciando um departament e setando suas variaveis Id e Name
-				Department dep = new Department();
-				dep.setId(rs.getInt("DepartmentId")); //Nome da coluna no BD
-				dep.setName(rs.getString("DepName")); //Nome da coluna com o nome do departamento
+				Department dep = instantiateDepartment(rs); //Função que instancia o department
 				
 				//Instanciando um Seller e setando as variaveis
-				Seller obj = new Seller();
-				obj.setId(rs.getInt("Id"));
-				obj.setName(rs.getString("Name"));
-				obj.setEmail(rs.getString("Email"));
-				obj.setBaseSalary(rs.getDouble("BaseSalary"));
-				obj.setBirthdate(rs.getDate("BirthDate"));
-				obj.setDepartment(dep); //Department ja foi instanciado e salvo na variavel dep
+				Seller obj = instantiateSeller(rs, dep);
 				
 				return obj;
 				
@@ -84,6 +76,30 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeResultSet(rs);
 		}
 	}
+
+	//Função para instanciar seller, ao inves de deixar no if(rs.next)
+	//Não se trata a exceção pois no if ja esta tratando, então se propaga aceitando a opçao dada pelo eclipse
+	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller obj = new Seller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setBirthdate(rs.getDate("BirthDate"));
+		obj.setDepartment(dep); //Department ja foi instanciado e salvo na variavel dep
+		return obj;
+	}
+
+
+
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId")); //Nome da coluna no BD
+		dep.setName(rs.getString("DepName")); //Nome da coluna com o nome do departamento
+		return dep;
+	}
+
+
 
 	@Override
 	public List<Seller> findAll() {
