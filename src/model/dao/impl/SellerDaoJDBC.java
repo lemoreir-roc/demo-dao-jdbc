@@ -106,9 +106,54 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "ORDER BY Name"
+					); //Não tem o WHERE
+						
+			rs = st.executeQuery(); //O rs esta apontando para a posição zero se não vier nada
+			
+			//Como retorna uma lista, criar uma
+			List<Seller> list = new ArrayList<>();
+			
+			//Map criado para não repetir a criação de um novo Department pelo while abaixo. Map esta vazio
+			Map<Integer, Department> map = new HashMap<>();
+			
+			//O resultado pode ter 0 ou mais valores. Aqui usa o while
+			while(rs.next()) {
+				
+				//Todo o DepartmentId sera salvo em um map. Toda vez que passa no while ele vai ver se o DepartmentId ja existe
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				
+				//Se o DepartmentId não estiver salvo na list do map, retorna null. Então crio uma nova instancia de department
+				if(dep == null) {
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep); //Salva na list map o DepartmentId
+				}
+								
+				//Instanciando um Seller e setando as variaveis
+				Seller obj = instantiateSeller(rs, dep);
+				
+				list.add(obj);
+				
+			}
+			return list; //Ele sempre retorna a lista
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		
 	}
+	
 
 
 
