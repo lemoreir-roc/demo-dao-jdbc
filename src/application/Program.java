@@ -33,11 +33,19 @@ public class Program {
 			System.out.println(obj);
 		}
 		
-		System.out.println("\n***TEST 4: seller Update***");
+		System.out.println("\n***TEST 4: seller Insert***");
 		Seller newSeller = new Seller(null, "Greg", "greg@greg.com.br", new Date(), 4000.00, department); //aproveitando o department do TEST2
 		sellerDao.insert(newSeller);
 		System.out.println("Inserted! New Id = " + newSeller.getId());
 		
+		System.out.println("\n***TEST 5: seller Update***");
+		seller = sellerDao.findById(1); //Reaproveitando o objeto seller ja criado acima
+		seller.setName("Martha Waine");
+		sellerDao.update(seller); //Atualizando o nome do Id 1
+		System.out.println("Update completed!");
+		
+		
+				
 	}
 
 }
