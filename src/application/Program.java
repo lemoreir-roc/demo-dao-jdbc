@@ -44,6 +44,9 @@ public class Program {
 		sellerDao.update(seller); //Atualizando o nome do Id 1
 		System.out.println("Update completed!");
 		
+		System.out.println("\n***TEST 6: seller Delete***");
+		sellerDao.deleteById(10);
+		System.out.println("Delete completed!");
 		
 				
 	}
