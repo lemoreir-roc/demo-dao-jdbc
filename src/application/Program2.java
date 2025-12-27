@@ -22,6 +22,12 @@ public class Program2 {
 		Department dep = departmentDao.findById(3);
 		System.out.println(dep);
 		
+		System.out.println("\n***TEST 3: department Update***");
+		dep = departmentDao.findById(5); //Reaproveitando o objeto department ja criado acima
+		dep.setName("Adventure");
+		departmentDao.update(dep); //Atualizando o nome do Id 1
+		System.out.println("Update completed!");
+		
 	}
 
 }
