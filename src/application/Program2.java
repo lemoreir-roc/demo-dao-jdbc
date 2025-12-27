@@ -28,6 +28,10 @@ public class Program2 {
 		departmentDao.update(dep); //Atualizando o nome do Id 1
 		System.out.println("Update completed!");
 		
+		System.out.println("\n***TEST 4: seller Delete***");
+		departmentDao.deleteById(6);
+		System.out.println("Delete completed!");
+		
 	}
 
 }
